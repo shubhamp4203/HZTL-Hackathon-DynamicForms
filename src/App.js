@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup"; // formik yup for validation
-import { Animation } from "./components/backgroundAnimation/Animation"; // Import the Animation component
+import * as Yup from "yup";
+import { Animation } from "./components/backgroundAnimation/Animation";
 import "./App.css";
-import { QRCodeCanvas } from 'qrcode.react'; // Correct import
-import data from "./data.json"; // Import data from data.json
+import data from "./data.json";
+import { QRCodeCanvas } from "qrcode.react";
+import "./index.css";
 
 // Validation schema with Yup
 const validationSchema = Yup.object({
@@ -21,6 +22,16 @@ const validationSchema = Yup.object({
     .max(100, "Email cannot be longer than 100 characters"),
   message: Yup.string().required("Message is required"),
   newsletter_signup: Yup.boolean().oneOf([true], "This is a required field"),
+  color: Yup.string(),
+  date: Yup.string(),
+  file: Yup.mixed(),
+  password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters long"),
+  radio: Yup.string().required("Please select an option"),
+  select: Yup.string().required("Please select an option"),
+  telephone: Yup.string().required("Telephone number is required"),
+  url: Yup.string().url("Invalid URL"),
 });
 
 function App() {
@@ -40,17 +51,6 @@ function App() {
     }
   }, []);
 
-  // Extract data from URL query parameters to pre-fill form
-  const getQueryParams = () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const params = {};
-    urlParams.forEach((value, key) => {
-      params[key] = value;
-    });
-    //console.log("URL Query Params: ", params);  // Debugging line to check the parameters
-    return params;
-  };
-
   const handleSubmit = (values) => {
     console.log("Form Submitted with data: ", values);
 
@@ -59,94 +59,73 @@ function App() {
       .then((response) => {
         console.log("Form submitted successfully: ", response);
         setFormSubmitted(true);
+        alert("Thank you for your response!");
       })
       .catch((error) => {
         console.error("Error submitting form: ", error);
       });
   };
 
-  const handleReset = () => {
-    setFormSubmitted(false);
-  };
-
   const goToNextStep = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, 2));
+    setCurrentStep((prev) => Math.min(prev + 1, 5)); // Move to the next step
   };
 
   const goToPreviousStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
+    setCurrentStep((prev) => Math.max(prev - 1, 1)); // Go to previous step
   };
 
   if (loading) {
     return <div className="text-center">Loading form...</div>;
   }
 
-  // Split the form fields into two parts: Step 1 and Step 2
+  // Step inputs
   const step1Inputs = form?.inputs.slice(0, 3);
-  const step2Inputs = form?.inputs.slice(3);
-
-  // Get query parameters and pre-fill form data
-  const queryParams = getQueryParams();
-  const initialValues = {
-    first_name: queryParams.first_name || "",
-    last_name: queryParams.last_name || "",
-    email: queryParams.email || "",
-    message: queryParams.message || "",
-    newsletter_signup: queryParams.newsletter_signup === "true" || false,
-  };
+  const step2Inputs = form?.inputs.slice(3, 6);
+  const step3Inputs = form?.inputs.slice(6, 9);
+  const step4Inputs = form?.inputs.slice(9, 12);
+  const step5Inputs = form?.inputs.slice(12);
 
   return (
-    <div className="h-screen w-full m-auto items-center">
-      <Animation /> {/* Add the Animation component here */}
+    <div className="center-wrapper">
+      <Animation />
+
       {formSubmitted && (
         <div className="bg-green-500 text-white p-4 text-center rounded-lg mb-4">
           <h3>Thank you! Your message has been submitted successfully.</h3>
         </div>
       )}
+
       {/* Formik Form */}
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          first_name: "",
+          last_name: "",
+          email: "",
+          message: "",
+          newsletter_signup: false,
+          color: "",
+          date: "",
+          file: null,
+          password: "",
+          radio: "",
+          select: "",
+          telephone: "",
+          url: "",
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values }) => {
-          // Generate the URL to encode the form values in the QR code
-          const queryString = new URLSearchParams(values).toString();
-          const fullUrl = `${window.location.origin}${window.location.pathname}?${queryString}`;
-          console.log("Generated URL: ", fullUrl);
           return (
-            <Form className="p-6 sm:p-8 max-w-md md:max-w-2xl mx-auto rounded-lg shadow-2xl relative z-10">
-              <h2 className="text-4xl font-semibold text-center text-white mb-6">
-                {form?.form_name}
-              </h2>
-              {/* Step 1 */}
-              {currentStep === 1 &&
-                step1Inputs.map((input, index) => (
-                  <div key={input.input_name || index} className="mb-4">
-                    <label className="block text-white font-medium mb-2">
-                      {input.label}
-                    </label>
-                    <Field
-                      name={input.input_name}
-                      type={input.input_type}
-                      placeholder={input.placeholder}
-                      maxLength={input.max_length}
-                      rows={input.rows}
-                      cols={input.cols}
-                      className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
-                    />
-                    <ErrorMessage
-                      name={input.input_name}
-                      component="div"
-                      className="text-red-500 text-sm mt-1"
-                    />
-                  </div>
-                ))}
+            <div className="absolute inset-0 flex justify-evenly items-center mx-auto container-fluid">
+              <Form className="p-6 sm:p-8 rounded-lg shadow-2xl z-10 sm:max-w-l max-w-md w-full">
+                <h2 className="text-4xl font-semibold text-center text-white mb-6 typing-slider ">
+                  {form?.form_name}
+                </h2>
 
-              {/* Step 2 */}
-              {currentStep === 2 && (
-                <>
-                  {step2Inputs.map((input, index) => (
+                {/* Step 1 */}
+                {currentStep === 1 &&
+                  step1Inputs.map((input, index) => (
                     <div key={input.input_name || index} className="mb-4">
                       <label className="block text-white font-medium mb-2">
                         {input.label}
@@ -168,49 +147,145 @@ function App() {
                     </div>
                   ))}
 
-                  {/* QR Code */}
-                  
-                </>
-              )}
+                {/* Step 2 */}
+                {currentStep === 2 &&
+                  step2Inputs.map((input, index) => (
+                    <div key={input.input_name || index} className="mb-4">
+                      <label className="block text-white font-medium mb-2">
+                        {input.label}
+                      </label>
+                      <Field
+                        name={input.input_name}
+                        type={input.input_type}
+                        placeholder={input.placeholder}
+                        maxLength={input.max_length}
+                        rows={input.rows}
+                        cols={input.cols}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                      />
+                      <ErrorMessage
+                        name={input.input_name}
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                  ))}
 
-              <div className="flex justify-between gap-4">
-                {currentStep > 1 && (
-                  <button
-                    type="button"
-                    onClick={goToPreviousStep}
-                    className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
-                  >
-                    Back
-                  </button>
-                )}
+                {/* Step 3 */}
+                {currentStep === 3 &&
+                  step3Inputs.map((input, index) => (
+                    <div key={input.input_name || index} className="mb-4">
+                      <label className="block text-white font-medium mb-2">
+                        {input.label}
+                      </label>
+                      <Field
+                        name={input.input_name}
+                        type={input.input_type}
+                        placeholder={input.placeholder}
+                        maxLength={input.max_length}
+                        rows={input.rows}
+                        cols={input.cols}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                      />
+                      <ErrorMessage
+                        name={input.input_name}
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                  ))}
 
-                {currentStep < 2 && (
-                  <button
-                    type="button"
-                    onClick={goToNextStep}
-                    className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
-                  >
-                    Next
-                  </button>
-                )}
+                {/* Step 4 */}
+                {currentStep === 4 &&
+                  step4Inputs.map((input, index) => (
+                    <div key={input.input_name || index} className="mb-4">
+                      <label className="block text-white font-medium mb-2">
+                        {input.label}
+                      </label>
+                      <Field
+                        name={input.input_name}
+                        type={input.input_type}
+                        placeholder={input.placeholder}
+                        maxLength={input.max_length}
+                        rows={input.rows}
+                        cols={input.cols}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                      />
+                      <ErrorMessage
+                        name={input.input_name}
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                  ))}
 
-                {currentStep === 2 && (
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
-                  >
-                    Submit
-                  </button>
-                )}
+                {/* Step 5 - Radio and Checkbox Inputs */}
+                {currentStep === 5 &&
+                  step5Inputs.map((input, index) => (
+                    <div key={input.input_name || index} className="mb-4">
+                      <label className="block text-white font-medium mb-2">
+                        {input.label}
+                      </label>
+                      <Field
+                        name={input.input_name}
+                        type={input.input_type}
+                        placeholder={input.placeholder}
+                        maxLength={input.max_length}
+                        rows={input.rows}
+                        cols={input.cols}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                      />
+                      <ErrorMessage
+                        name={input.input_name}
+                        component="div"
+                        className="text-red-500 text-sm mt-1"
+                      />
+                    </div>
+                  ))}
+
+                <div className="flex justify-between gap-4">
+                  {currentStep > 1 && (
+                    <button
+                      type="button"
+                      onClick={goToPreviousStep}
+                      className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
+                    >
+                      Back
+                    </button>
+                  )}
+
+                  {currentStep < 5 && (
+                    <button
+                      type="button"
+                      onClick={goToNextStep}
+                      className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
+                    >
+                      Next
+                    </button>
+                  )}
+
+                  {currentStep === 5 && (
+                    <button
+                      type="submit"
+                      className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
+                    >
+                      Submit
+                    </button>
+                  )}
+                </div>
+              </Form>
+
+              {/* QR Code */}
+              <div className="mt-6 flex flex-col justify-center items-center">
+                <QRCodeCanvas
+                  value={window.location.href}
+                  className="sm:max-w-l max-w-md"
+                />
+                <p className="mt-2 text-sm text-gray-600">
+                  Scan to see the filled form
+                </p>
               </div>
-              <div className="mt-6 text-center">
-                    <QRCodeCanvas value={fullUrl} size={256} />
-                    <p className="mt-2 text-sm text-gray-600">
-                      Scan to see the filled form
-                    </p>
-                  </div>
-            </Form>
-            
+            </div>
           );
         }}
       </Formik>
