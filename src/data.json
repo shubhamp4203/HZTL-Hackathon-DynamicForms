@@ -1,0 +1,61 @@
+{
+    "form_name": "Contact Us",
+    "form_id": "contact_form_123",
+    "action_url": "/submit-form",
+    "method": "POST",
+    "inputs": [
+      {
+        "input_name": "first_name",
+        "label": "First Name",
+        "input_type": "text",
+        "required": true,
+        "placeholder": "Enter your first name",
+        "max_length": 50
+      },
+      {
+        "input_name": "last_name",
+        "label": "Last Name",
+        "input_type": "text",
+        "required": true,
+        "placeholder": "Enter your last name",
+        "max_length": 50
+      },
+      {
+        "input_name": "email",
+        "label": "Email Address",
+        "input_type": "email",
+        "required": true,
+        "placeholder": "Enter your email",
+        "max_length": 100
+      },
+      {
+        "input_name": "message",
+        "label": "Message",
+        "input_type": "textarea",
+        "required": true,
+        "placeholder": "Write your message here",
+        "rows": 5,
+        "cols": 40
+      },
+      {
+        "input_name": "newsletter_signup",
+        "label": "Sign up for newsletter",
+        "input_type": "checkbox",
+        "required": true,
+        "checked": false
+      }
+    ],
+    "buttons": [
+      {
+        "button_type": "submit",
+        "button_label": "Send Message",
+        "button_id": "submit_button"
+      },
+      {
+        "button_type": "reset",
+        "button_label": "Reset Form",
+        "button_id": "reset_button"
+      }
+    ]
+  }
+  

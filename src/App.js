@@ -1,112 +1,53 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup"; // formik yup for validation
+import { Animation } from "./components/backgroundAnimation/Animation"; // Import the Animation component
 import "./App.css";
-import { Animation } from "./components/backgroundAnimation/Animation";
+import data from "./data.json"; // Import data from data.json
 
+// Validation schema with Yup
+const validationSchema = Yup.object({
+  first_name: Yup.string()
+    .required("First Name is required")
+    .max(50, "First Name cannot be longer than 50 characters"),
+  last_name: Yup.string()
+    .required("Last Name is required")
+    .max(50, "Last Name cannot be longer than 50 characters"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required")
+    .max(100, "Email cannot be longer than 100 characters"),
+  message: Yup.string().required("Message is required"),
+  // Make the checkbox field required
+  newsletter_signup: Yup.boolean().oneOf([true], "This is a required field"),
+});
 
 function App() {
   const [form, setForm] = useState(null);
-  const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
-  // Fetch form fields (using dummy data from API)
+  // Load form data from JSON (directly from imported data.json)
   useEffect(() => {
-    
-
-    const fetchFormFields = async () => {
-      try {
-        // Simulated form structure
-        const formData = {
-          form_name: "Contact Us",
-          form_id: "contact_form_123",
-          action_url: "/submit-form",
-          method: "POST",
-          inputs: [
-            {
-              input_name: "first_name",
-              label: "First Name",
-              input_type: "text",
-              required: true,
-              placeholder: "Enter your first name",
-              max_length: 50,
-            },
-            {
-              input_name: "last_name",
-              label: "Last Name",
-              input_type: "text",
-              required: true,
-              placeholder: "Enter your last name",
-              max_length: 50,
-            },
-            {
-              input_name: "email",
-              label: "Email Address",
-              input_type: "email",
-              required: true,
-              placeholder: "Enter your email",
-              max_length: 100,
-            },
-            {
-              input_name: "message",
-              label: "Message",
-              input_type: "textarea",
-              required: true,
-              placeholder: "Write your message here",
-              rows: 5,
-              cols: 40,
-            },
-            {
-              input_name: "newsletter_signup",
-              label: "Sign up for newsletter",
-              input_type: "checkbox",
-              required: false,
-              checked: false,
-            },
-          ],
-          buttons: [
-            {
-              button_type: "submit",
-              button_label: "Send Message",
-              button_id: "submit_button",
-            },
-            {
-              button_type: "reset",
-              button_label: "Reset Form",
-              button_id: "reset_button",
-            },
-          ],
-        };
-
-        setForm(formData);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching form fields", error);
-        setLoading(false);
-      }
-    };
-
-    fetchFormFields();
+    try {
+      setForm(data); // Directly use the data from the imported JSON
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading form data", error);
+      setLoading(false);
+    }
   }, []);
 
-  const handleChange = (e, fieldName) => {
-    const { value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [fieldName]: type === "checkbox" ? checked : value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Submitted with data: ", formData);
+  const handleSubmit = (values) => {
+    console.log("Form Submitted with data: ", values);
 
     axios
-      .post("https://jsonplaceholder.typicode.com/posts", formData)
+      .post("https://jsonplaceholder.typicode.com/posts", values)
       .then((response) => {
         console.log("Form submitted successfully: ", response);
         setFormSubmitted(true);
-        setFormData({});
       })
       .catch((error) => {
         console.error("Error submitting form: ", error);
@@ -114,114 +55,129 @@ function App() {
   };
 
   const handleReset = () => {
-    setFormData({});
     setFormSubmitted(false);
   };
 
-  // Render dynamic fields based on the input type
-  const renderField = (input) => {
-    switch (input.input_type) {
-      case "text":
-        return (
-          <input
-            type="text"
-            name={input.input_name}
-            value={formData[input.input_name] || ""}
-            onChange={(e) => handleChange(e, input.input_name)}
-            placeholder={input.placeholder}
-            maxLength={input.max_length}
-            required={input.required}
-            className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
-          />
-        );
-      case "email":
-        return (
-          <input
-            type="email"
-            name={input.input_name}
-            value={formData[input.input_name] || ""}
-            onChange={(e) => handleChange(e, input.input_name)}
-            placeholder={input.placeholder}
-            maxLength={input.max_length}
-            required={input.required}
-            className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
-          />
-        );
-      case "textarea":
-        return (
-          <textarea
-            name={input.input_name}
-            value={formData[input.input_name] || ""}
-            onChange={(e) => handleChange(e, input.input_name)}
-            placeholder={input.placeholder}
-            rows={input.rows}
-            cols={input.cols}
-            required={input.required}
-            className="w-full p-2 border border-gray-300 rounded-md resize-y focus:border-blue-500 focus:outline-none"
-          />
-        );
-      case "checkbox":
-        return (
-          <input
-            type="checkbox"
-            name={input.input_name}
-            checked={formData[input.input_name] || false}
-            onChange={(e) => handleChange(e, input.input_name)}
-            required={input.required}
-            className="mr-2"
-          />
-        );
-      default:
-        return null;
-    }
+  const goToNextStep = () => {
+    setCurrentStep((prev) => Math.min(prev + 1, 2));
+  };
+
+  const goToPreviousStep = () => {
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
   if (loading) {
     return <div className="text-center">Loading form...</div>;
   }
 
+  // Split the form fields into two parts: Step 1 and Step 2
+  const step1Inputs = form?.inputs.slice(0, 3);
+  const step2Inputs = form?.inputs.slice(3);
+
   return (
-    <div className="h-screen w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-background">
+    <div>
+      <Animation /> {/* Add the Animation component here */}
       {formSubmitted && (
         <div className="bg-green-500 text-white p-4 text-center rounded-lg mb-4">
           <h3>Thank you! Your message has been submitted successfully.</h3>
         </div>
       )}
-      <form
+      {/* Formik Form */}
+      <Formik
+        initialValues={{
+          first_name: "",
+          last_name: "",
+          email: "",
+          message: "",
+          newsletter_signup: false,
+        }}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        action={form?.action_url}
-        method={form?.method}
-        className="bg-white p-6 sm:p-8 max-w-lg mx-auto rounded-lg shadow-lg relative z-10"
       >
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-          {form?.form_name}
-        </h2>
-        {form?.inputs.map((input, index) => (
-          <div key={input.input_name || index} className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2">
-              {input.label}
-            </label>
-            {renderField(input)}
+        <Form className=" p-6 sm:p-8 max-w-md md:max-w-2xl mx-auto rounded-lg shadow-2xl relative z-10 mt-40">
+          <h2 className="text-4xl font-semibold text-center text-white mb-6">
+            {form?.form_name}
+          </h2>
+          {/* Step 1 */}
+          {currentStep === 1 &&
+            step1Inputs.map((input, index) => (
+              <div key={input.input_name || index} className="mb-4">
+                <label className="block text-white font-medium mb-2">
+                  {input.label}
+                </label>
+                <Field
+                  name={input.input_name}
+                  type={input.input_type}
+                  placeholder={input.placeholder}
+                  maxLength={input.max_length}
+                  rows={input.rows}
+                  cols={input.cols}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                />
+                <ErrorMessage
+                  name={input.input_name}
+                  component="div"
+                  className="text-red-500 text-sm mt-1"
+                />
+              </div>
+            ))}
+
+          {/* Step 2 */}
+          {currentStep === 2 &&
+            step2Inputs.map((input, index) => (
+              <div key={input.input_name || index} className="mb-4">
+                <label className="block text-white font-medium mb-2">
+                  {input.label}
+                </label>
+                <Field
+                  name={input.input_name}
+                  type={input.input_type}
+                  placeholder={input.placeholder}
+                  maxLength={input.max_length}
+                  rows={input.rows}
+                  cols={input.cols}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                />
+                <ErrorMessage
+                  name={input.input_name}
+                  component="div"
+                  className="text-red-500 text-sm mt-1"
+                />
+              </div>
+            ))}
+
+          <div className="flex justify-between gap-4">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={goToPreviousStep}
+                className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
+              >
+                Back
+              </button>
+            )}
+
+            {currentStep < 2 && (
+              <button
+                type="button"
+                onClick={goToNextStep}
+                className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
+              >
+                Next
+              </button>
+            )}
+
+            {currentStep === 2 && (
+              <button
+                type="submit"
+                className="px-6 py-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:bg-gradient-to-r hover:from-blue-600 hover:via-indigo-600 hover:to-purple-600 rounded-md text-white"
+              >
+                Submit
+              </button>
+            )}
           </div>
-        ))}
-        <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
-          {form?.buttons.map((button, index) => (
-            <button
-              key={button.button_id}
-              type={button.button_type}
-              onClick={button.button_type === "reset" ? handleReset : null}
-              className={`px-6 py-2 rounded-md text-white ${
-                button.button_type === "submit"
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-red-500 hover:bg-red-600"
-              }`}
-            >
-              {button.button_label}
-            </button>
-          ))}
-        </div>
-      </form>
-      <Animation/>
+        </Form>
+      </Formik>
     </div>
   );
 }
