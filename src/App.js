@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
+import { Animation } from "./components/backgroundAnimation/Animation";
+
 
 function App() {
   const [form, setForm] = useState(null);
@@ -13,6 +15,8 @@ function App() {
   const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
 
   useEffect(() => {
+    
+
     const fetchFormFields = async () => {
       try {
         const response = await axios.get(apiEndpoint);
@@ -216,6 +220,7 @@ function App() {
           ))}
         </div>
       </form>
+      <Animation/>
     </div>
   );
 }

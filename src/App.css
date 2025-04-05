@@ -5,6 +5,15 @@ body {
   background-color: #f7f7f7;
   margin: 0;
   padding: 0;
+ 
+}
+.bg{
+  width: 100vw;
+  height: 100vh;
+  position:absolute;
+  top:0;
+  z-index:-1;
+  color: #ff508a;
 }
 
 h2 {
