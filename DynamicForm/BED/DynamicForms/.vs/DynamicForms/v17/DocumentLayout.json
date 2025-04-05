@@ -1,0 +1,99 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\controllers\\dynamicformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|solutionrelative:controllers\\dynamicformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|c:\\users\\spachchigar\\desktop\\hztl-hackathon\\dynamicform\\bed\\dynamicforms\\app_config\\include\\project\\zzzdynamicforms.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|solutionrelative:app_config\\include\\project\\zzzdynamicforms.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\app_config\\include\\project\\zzzdynamicforms.config||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|solutionrelative:app_config\\include\\project\\zzzdynamicforms.config||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\views\\dynamicform\\getform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DD7D50C9-36E2-4104-96FF-50B4FA47C9BC}|DynamicForms.csproj|solutionrelative:views\\dynamicform\\getform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "zzzDynamicForms.config",
+              "DocumentMoniker": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "RelativeDocumentMoniker": "App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "ToolTip": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "RelativeToolTip": "App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-04-05T05:58:40.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "zzzDynamicForms.config",
+              "DocumentMoniker": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "RelativeDocumentMoniker": "App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "ToolTip": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "RelativeToolTip": "App_Config\\Include\\Project\\zzzDynamicForms.config",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2025-04-05T05:44:58.074Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GetForm.cshtml",
+              "DocumentMoniker": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\Views\\DynamicForm\\GetForm.cshtml",
+              "RelativeDocumentMoniker": "Views\\DynamicForm\\GetForm.cshtml",
+              "ToolTip": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\Views\\DynamicForm\\GetForm.cshtml",
+              "RelativeToolTip": "Views\\DynamicForm\\GetForm.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-05T04:19:01.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DynamicFormController.cs",
+              "DocumentMoniker": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\Controllers\\DynamicFormController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DynamicFormController.cs",
+              "ToolTip": "C:\\Users\\spachchigar\\Desktop\\HZTL-Hackathon\\DynamicForm\\BED\\DynamicForms\\Controllers\\DynamicFormController.cs",
+              "RelativeToolTip": "Controllers\\DynamicFormController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAADwvykAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-05T04:18:39.424Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
