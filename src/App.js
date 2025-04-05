@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 import { Animation } from "./components/backgroundAnimation/Animation";
+import QRCode from "qrcode.react"
 
 
 function App() {
@@ -181,7 +182,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-background">
+    <div className="h-screen w-full flex items-center justify-center">
       {formSubmitted && (
         <div className="bg-green-500 text-white p-4 text-center rounded-lg mb-4">
           <h3>Thank you! Your message has been submitted successfully.</h3>
@@ -191,7 +192,7 @@ function App() {
         onSubmit={handleSubmit}
         action={form?.action_url}
         method={form?.method}
-        className="bg-white p-6 sm:p-8 max-w-lg mx-auto rounded-lg shadow-lg relative z-10"
+        className="bg-white bg-opacity-50  p-6 sm:p-8 max-w-lg mx-auto rounded-lg shadow-lg relative z-10"
       >
         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
           {form?.form_name}

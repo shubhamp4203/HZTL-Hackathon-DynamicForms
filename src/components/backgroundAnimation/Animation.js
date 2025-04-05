@@ -3,6 +3,9 @@ import * as THREE from "three";
 import NET from "vanta/src/vanta.net.js";
 
 export const Animation = () => {
+    const material = new THREE.MeshStandardMaterial({
+        vertexColors: true // or THREE.VertexColors in older versions
+      });
   const vantaRef = useRef(null);
   useEffect(() => {
     const vantaEffect = NET({
