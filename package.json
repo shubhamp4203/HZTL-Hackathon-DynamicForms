@@ -2,6 +2,7 @@
   "name": "error404-hackathon",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://horizontaltrainingsc.dev.local",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@tailwindcss/postcss": "^4.1.3",
