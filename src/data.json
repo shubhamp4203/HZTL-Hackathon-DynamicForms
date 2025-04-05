@@ -43,6 +43,69 @@
         "input_type": "checkbox",
         "required": true,
         "checked": false
+      },
+      {
+        "input_name": "color",
+        "label": "Favorite Color",
+        "input_type": "color",
+        "required": false,
+        "placeholder": ""
+      },
+      {
+        "input_name": "date",
+        "label": "Event Date",
+        "input_type": "date",
+        "required": false,
+        "placeholder": ""
+      },
+      {
+        "input_name": "file",
+        "label": "Upload File",
+        "input_type": "file",
+        "required": false,
+        "placeholder": ""
+      },
+      {
+        "input_name": "password",
+        "label": "Password",
+        "input_type": "password",
+        "required": true,
+        "placeholder": "Enter your password",
+        "min_length": 8
+      },
+      {
+        "input_name": "radio",
+        "label": "Radio Options",
+        "input_type": "radio",
+        "required": true,
+        "options": [
+          "Option 1",
+          "Option 2"
+        ]
+      },
+      {
+        "input_name": "select",
+        "label": "Select an Option",
+        "input_type": "select",
+        "required": true,
+        "options": [
+          "Option A",
+          "Option B"
+        ]
+      },
+      {
+        "input_name": "telephone",
+        "label": "Telephone",
+        "input_type": "tel",
+        "required": true,
+        "placeholder": "Enter your telephone number"
+      },
+      {
+        "input_name": "url",
+        "label": "Website URL",
+        "input_type": "url",
+        "required": false,
+        "placeholder": "Enter your website URL"
       }
     ],
     "buttons": [

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup"; // formik yup for validation
-import { Animation } from "./components/backgroundAnimation/Animation"; // Import the Animation component
+import * as Yup from "yup";
+import { Animation } from "./components/backgroundAnimation/Animation";
 import "./App.css";
 import { QRCodeCanvas } from "qrcode.react"; // Correct import
 
@@ -35,14 +35,11 @@ function App() {
       .then((response) => {
         console.log("Form submitted successfully: ", response);
         setFormSubmitted(true);
+        alert("Thank you for your response!");
       })
       .catch((error) => {
         console.error("Error submitting form: ", error);
       });
-  };
-
-  const handleReset = () => {
-    setFormSubmitted(false);
   };
 
   const goToNextStep = () => {
@@ -50,7 +47,7 @@ function App() {
   };
 
   const goToPreviousStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
+    setCurrentStep((prev) => Math.max(prev - 1, 1)); // Go to previous step
   };
 
   // If the form is still loading
@@ -58,7 +55,7 @@ function App() {
     return <div className="text-center">Loading form...</div>;
   }
 
-  // Split the form fields into two parts: Step 1 and Step 2
+  // Step inputs
   const step1Inputs = form?.inputs.slice(0, 3);
   const step2Inputs = form?.inputs.slice(3, 6);
   const step3Inputs = form?.inputs.slice(6, 9);
@@ -175,7 +172,21 @@ function App() {
       )}
 
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          first_name: "",
+          last_name: "",
+          email: "",
+          message: "",
+          newsletter_signup: false,
+          color: "",
+          date: "",
+          file: null,
+          password: "",
+          radio: "",
+          select: "",
+          telephone: "",
+          url: "",
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
