@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
@@ -11,17 +10,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // dummy api data endpoint
-  const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
-
+  // Fetch form fields (using dummy data from API)
   useEffect(() => {
     
 
     const fetchFormFields = async () => {
       try {
-        const response = await axios.get(apiEndpoint);
-
-        // dummy API data written for testing on UI
+        // Simulated form structure
         const formData = {
           form_name: "Contact Us",
           form_id: "contact_form_123",
@@ -81,11 +76,6 @@ function App() {
               button_id: "reset_button",
             },
           ],
-          additional_info: {
-            captcha_enabled: true,
-            success_redirect_url: "/thank-you",
-            error_message: "Please fill out all required fields.",
-          },
         };
 
         setForm(formData);
@@ -111,7 +101,6 @@ function App() {
     e.preventDefault();
     console.log("Form Submitted with data: ", formData);
 
-    // Simulate form submission
     axios
       .post("https://jsonplaceholder.typicode.com/posts", formData)
       .then((response) => {
@@ -124,7 +113,6 @@ function App() {
       });
   };
 
-  // ClearS form data when reset button is clicked
   const handleReset = () => {
     setFormData({});
     setFormSubmitted(false);
@@ -143,6 +131,7 @@ function App() {
             placeholder={input.placeholder}
             maxLength={input.max_length}
             required={input.required}
+            className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
           />
         );
       case "email":
@@ -155,6 +144,7 @@ function App() {
             placeholder={input.placeholder}
             maxLength={input.max_length}
             required={input.required}
+            className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
           />
         );
       case "textarea":
@@ -167,6 +157,7 @@ function App() {
             rows={input.rows}
             cols={input.cols}
             required={input.required}
+            className="w-full p-2 border border-gray-300 rounded-md resize-y focus:border-blue-500 focus:outline-none"
           />
         );
       case "checkbox":
@@ -177,6 +168,7 @@ function App() {
             checked={formData[input.input_name] || false}
             onChange={(e) => handleChange(e, input.input_name)}
             required={input.required}
+            className="mr-2"
           />
         );
       default:
@@ -185,13 +177,13 @@ function App() {
   };
 
   if (loading) {
-    return <div>Loading form...</div>;
+    return <div className="text-center">Loading form...</div>;
   }
 
   return (
-    <div>
+    <div className="h-screen w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-gradient-background">
       {formSubmitted && (
-        <div className="submission-message">
+        <div className="bg-green-500 text-white p-4 text-center rounded-lg mb-4">
           <h3>Thank you! Your message has been submitted successfully.</h3>
         </div>
       )}
@@ -199,21 +191,30 @@ function App() {
         onSubmit={handleSubmit}
         action={form?.action_url}
         method={form?.method}
+        className="bg-white p-6 sm:p-8 max-w-lg mx-auto rounded-lg shadow-lg relative z-10"
       >
-        <h2>{form?.form_name}</h2>
+        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+          {form?.form_name}
+        </h2>
         {form?.inputs.map((input, index) => (
-          <div key={input.input_name || index} className="form-group">
-            <label>{input.label}</label>
+          <div key={input.input_name || index} className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2">
+              {input.label}
+            </label>
             {renderField(input)}
           </div>
         ))}
-        <div className="form-buttons">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
           {form?.buttons.map((button, index) => (
             <button
               key={button.button_id}
               type={button.button_type}
               onClick={button.button_type === "reset" ? handleReset : null}
-              className="form-button"
+              className={`px-6 py-2 rounded-md text-white ${
+                button.button_type === "submit"
+                  ? "bg-green-500 hover:bg-green-600"
+                  : "bg-red-500 hover:bg-red-600"
+              }`}
             >
               {button.button_label}
             </button>

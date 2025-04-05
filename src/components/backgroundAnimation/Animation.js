@@ -7,7 +7,7 @@ export const Animation = () => {
   useEffect(() => {
     const vantaEffect = NET({
       el: vantaRef.current,
-      THREE,
+      THREE: THREE,
       mouseControls: true,
       touchControls: true,
       gyroControls: false,
@@ -27,8 +27,9 @@ export const Animation = () => {
     });
   });
   return (
-    <div className="bg" id="vanta" ref={vantaRef}>
+    <div className="w-screen h-screen absolute top-0 -z-1" id="vanta" ref={vantaRef}>
       Animation
     </div>
   );
 };
+
