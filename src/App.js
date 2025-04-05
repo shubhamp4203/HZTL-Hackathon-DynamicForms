@@ -80,10 +80,21 @@ function App() {
 
   // Step inputs
   const step1Inputs = form?.inputs.slice(0, 3);
-  const step2Inputs = form?.inputs.slice(3, 6);
+  let step2Inputs = form?.inputs.slice(3, 6);
   const step3Inputs = form?.inputs.slice(6, 9);
-  const step4Inputs = form?.inputs.slice(9, 12);
-  const step5Inputs = form?.inputs.slice(12);
+  let step4Inputs = form?.inputs.slice(9, 12);
+  let step5Inputs = form?.inputs.slice(12);
+
+  // Move the second field from Step 2 and the first field from Step 4 to Step 5
+  step5Inputs = [
+    ...step5Inputs,
+    step2Inputs[1], // Second field from Step 2
+    step4Inputs[0], // First field from Step 4
+  ];
+
+  // Remove those fields from Step 2 and Step 4
+  step2Inputs = step2Inputs.filter((_, index) => index !== 1);
+  step4Inputs = step4Inputs.filter((_, index) => index !== 0);
 
   return (
     <div className="center-wrapper">
@@ -185,7 +196,7 @@ function App() {
                         maxLength={input.max_length}
                         rows={input.rows}
                         cols={input.cols}
-                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none bg-white"
                       />
                       <ErrorMessage
                         name={input.input_name}
@@ -195,7 +206,7 @@ function App() {
                     </div>
                   ))}
 
-                {/* Step 4 */}
+                {/* Step 4 - Add dropdown for both fields */}
                 {currentStep === 4 &&
                   step4Inputs.map((input, index) => (
                     <div key={input.input_name || index} className="mb-4">
@@ -204,13 +215,15 @@ function App() {
                       </label>
                       <Field
                         name={input.input_name}
-                        type={input.input_type}
-                        placeholder={input.placeholder}
-                        maxLength={input.max_length}
-                        rows={input.rows}
-                        cols={input.cols}
+                        as="select"
                         className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
-                      />
+                      >
+                        {input.options?.map((option, idx) => (
+                          <option key={idx} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </Field>
                       <ErrorMessage
                         name={input.input_name}
                         component="div"
@@ -222,7 +235,7 @@ function App() {
                 {/* Step 5 - Radio and Checkbox Inputs */}
                 {currentStep === 5 &&
                   step5Inputs.map((input, index) => (
-                    <div key={input.input_name || index} className="mb-4">
+                    <div key={input.input_name || index} className="mb-4 flex">
                       <label className="block text-white font-medium mb-2">
                         {input.label}
                       </label>
@@ -233,7 +246,7 @@ function App() {
                         maxLength={input.max_length}
                         rows={input.rows}
                         cols={input.cols}
-                        className="w-full p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
+                        className=" ml-2 align-baseline p-2 border border-gray-300 rounded-md focus:border-blue-500 focus:outline-none"
                       />
                       <ErrorMessage
                         name={input.input_name}
@@ -276,12 +289,12 @@ function App() {
               </Form>
 
               {/* QR Code */}
-              <div className="mt-6 flex flex-col justify-center items-center">
+              <div className="mt-6 flex-col justify-center items-center">
                 <QRCodeCanvas
                   value={window.location.href}
                   className="sm:max-w-l max-w-md"
                 />
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-grey-600 sm:flex-col flex">
                   Scan to see the filled form
                 </p>
               </div>

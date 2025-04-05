@@ -31,7 +31,6 @@ export const Animation = () => {
   });
   return (
     <div className="w-screen h-screen absolute top-0 -z-1" id="vanta" ref={vantaRef}>
-      Animation
     </div>
   );
 };
